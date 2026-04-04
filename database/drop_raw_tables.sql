@@ -1,8 +1,0 @@
-USE BigDataProject;
-GO
-
-DROP TABLE IF EXISTS WorldBankData;
-GO
-
-DROP TABLE IF EXISTS CO2_Data;
-GO
