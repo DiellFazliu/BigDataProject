@@ -23,3 +23,6 @@ SELECT
 FROM FactCO2Energy f
 JOIN DimCountry c ON f.CountryKey = c.CountryKey
 JOIN DimTime t ON f.TimeKey = t.TimeKey;
+
+UPDATE FactCO2_ByCountry_Partitioned
+SET CountryCode = REPLACE(CountryCode, '"', '');
