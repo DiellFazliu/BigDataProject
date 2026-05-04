@@ -2,13 +2,14 @@ USE BigDataProject;
 GO
 
 -- =====================================================
--- EKSPORTI I TË DHËNAVE NË XML (VERSIONI I PASTRUAR)
+-- EKSPORTI I TË DHËNAVE NË XML (ME UNIQUEID)
 -- =====================================================
 
 SELECT 
     c.CountryName AS '@Country',
     REPLACE(REPLACE(c.CountryCode, '"', ''), '"', '') AS '@CountryCode',
     t.Year AS '@Year',
+    CONCAT(c.CountryName, '_', t.Year) AS '@UniqueID',  -- <--- KJO ËSHTE E REJA
     CAST(ROUND(SUM(f.TotalCO2), 2) AS DECIMAL(18,2)) AS 'TotalCO2',
     CAST(ROUND(SUM(f.CoalCO2), 2) AS DECIMAL(18,2)) AS 'CoalCO2',
     CAST(ROUND(SUM(f.OilCO2), 2) AS DECIMAL(18,2)) AS 'OilCO2',
