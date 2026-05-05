@@ -40,32 +40,6 @@ ORDER BY TotalCO2 DESC;
 GO
 
 -- View 4
-CREATE OR ALTER VIEW vw_CO2_vs_GDP AS
-SELECT 
-    c.CountryName,
-    t.Year,
-    SUM(f.TotalCO2) AS TotalCO2,
-    AVG(w.Value) AS GDP,  -- AVG në vend të MAX (më i saktë)
-    CASE 
-        WHEN AVG(w.Value) = 0 OR AVG(w.Value) IS NULL THEN 0
-        ELSE SUM(f.TotalCO2) / AVG(w.Value) * 1000000  -- CO2 për 1 milion GDP
-    END AS CO2_Per_UnitGDP
-FROM dbo.FactCO2Energy f
-JOIN dbo.DimCountry c 
-    ON f.CountryKey = c.CountryKey
-JOIN dbo.DimTime t 
-    ON f.TimeKey = t.TimeKey
-LEFT JOIN dbo.FactWDI w   -- Përdor LEFT JOIN për të mos humbur të dhëna pa GDP
-    ON w.CountryKey = c.CountryKey 
-    AND w.TimeKey = t.TimeKey
-LEFT JOIN dbo.DimSeries s 
-    ON w.SeriesKey = s.SeriesKey
-    AND s.SeriesCode = 'NY.GDP.MKTP.CD'
-WHERE f.TotalCO2 IS NOT NULL  -- Filtro vetëm rreshtat me të dhëna CO2
-GROUP BY c.CountryName, t.Year;
-GO
-
--- View 5
 CREATE OR ALTER VIEW vw_YearlyGlobalStats AS
 SELECT 
     t.Year,
@@ -86,7 +60,7 @@ WHERE f.TotalCO2 IS NOT NULL
 GROUP BY t.Year;
 GO
 
---View 6
+--View 5
 CREATE OR ALTER VIEW vw_CountryYearUnique AS
 SELECT DISTINCT
     c.CountryName,
