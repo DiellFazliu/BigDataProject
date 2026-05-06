@@ -1,3 +1,6 @@
+USE BigDataProject;
+GO
+
 -- View 1
 CREATE OR ALTER VIEW vw_CO2PerCapita AS  
 SELECT 
